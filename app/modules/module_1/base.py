@@ -7,5 +7,5 @@ class BaseClass1(ABC):
 
     @abstractmethod
     def method1(self) -> None:
-        # metot tanimi 234444
+        # metot tanimi 2344445
         pass
