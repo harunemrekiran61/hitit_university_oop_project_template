@@ -7,5 +7,5 @@ class BaseClass2(ABC):
 
     @abstractmethod
     def method2(self) -> None:
-        # model tanimii
+        # model tanimiii
         pass
