@@ -1,17 +1,9 @@
-from app.modules.module_1.implementations import (
+from app.modules.Patient.implementations import (
     Base1SubClass1, Base1SubClass2
 )
 
 from app.modules.module_2.implementations import (
     Base2SubClass1, Base2SubClass2
-)
-
-from app.modules.module_3.implementations import (
-    Base3SubClass1, Base3SubClass2
-)
-
-from app.modules.module_4.implementations import (
-    Base4SubClass1, Base4SubClass2
 )
 
 def run_demo():
@@ -32,21 +24,6 @@ def run_demo():
     ]
     for n in base_2:
         n.method2()
-
-        
-    # Ogrenci 3 (Modul 3)
-    base_3 = [
-        Base3SubClass1("parametre5"),
-        Base3SubClass2("parametre6")
-    ]
-    for p in base_3:
-        p.method3()
-
-    # Ogrenci 4 (Modul 4)
-    object1 = Base4SubClass1("parametre7")
-    object2 = Base4SubClass2("parametre8")
-    object1.method4()
-    object2.method4()
 
 if __name__ == "__main__":
     run_demo()
