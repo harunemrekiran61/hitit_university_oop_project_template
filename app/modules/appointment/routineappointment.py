@@ -19,13 +19,11 @@ class RoutineAppointment(AppointmentBase):
         self.room_number = room_number
         self.duration_minutes = duration_minutes
 
-    # Abstract methodu override ediyoruz
     def calculate_fee(self) -> int:
         base_fee = 300
-        extra_fee = 50 if self.duration_minutes > 30 else 0
+        extra_fee = 50 if self.duration_minutes > 30 else 0.   # Süre artarsa ücret artar
         return base_fee + extra_fee
 
-    # Abstract methodu override ediyoruz
     def get_details(self) -> str:
         return (
             f"Rutin Randevu | Dr. {self.doctor_name} | "
