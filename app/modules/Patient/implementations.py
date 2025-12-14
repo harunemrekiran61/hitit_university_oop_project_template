@@ -1,5 +1,5 @@
 # app/modules/module_1/implementations.py
-from app.modules.module_1.base import BaseClass1
+from app.modules.Patient.base import BaseClass1
 
 class Base1SubClass1(BaseClass1):
     def method1(self):
