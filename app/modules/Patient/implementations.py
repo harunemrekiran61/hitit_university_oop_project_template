@@ -1,10 +1,20 @@
-# app/modules/module_1/implementations.py
-from app.modules.Patient.base import BaseClass1
+# app/modules/patient/implementations.py
+from .base import PatientBase
 
-class Base1SubClass1(BaseClass1):
-    def method1(self):
-        print(f"Sinif Attribute: {self.base1Attribute}")
+class PrintablePatient(PatientBase):
+    """
+    PatientBase için örnek implementasyon
+    (abstract class test/demo amaçlı)
+    """
 
-class Base1SubClass2(BaseClass1):
-    def method1(self):
-        print(f"Sinif Attribute: {self.base1Attribute}")
+    def get_priority(self) -> int:
+        return 99
+
+    def describe(self) -> str:
+        return (
+            f"[TEST PATIENT] "
+            f"ID: {self.patient_id}, "
+            f"Ad: {self.name}, "
+            f"Yaş: {self.age}, "
+            f"Durum: {self.status}"
+        )

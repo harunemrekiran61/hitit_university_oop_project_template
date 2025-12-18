@@ -1,6 +1,5 @@
 # app/modules/patient/emergency_patient.py
-
-from app.modules.Patient.base import PatientBase
+from .base import PatientBase
 from datetime import datetime
 
 
@@ -46,12 +45,11 @@ class EmergencyPatient(PatientBase):
         Seviye 2 → 80
         Seviye 3 → 60
         """
-        priority_map = {
+        return {
             1: 100,
             2: 80,
             3: 60
-        }
-        return priority_map[self._emergency_level]
+        }[self._emergency_level]
 
     # abstract method override
     def describe(self) -> str:
@@ -62,22 +60,36 @@ class EmergencyPatient(PatientBase):
             f"Yaş: {self.age}, "
             f"Cinsiyet: {self.gender}, "
             f"Acil Seviye: {self._emergency_level}, "
-            f"Geliş Zamanı: {self._arrival_time.strftime('%Y-%m-%d %H:%M')}"
+            f"Geliş Zamanı: {self._arrival_time.strftime('%Y-%m-%d %H:%M')}, "
+            f"Durum: {self.status}"
         )
+
+    # base davranışı override
+    def update_status(self, new_status: str):
+        """
+        Acil hastalar için durum geçişleri kontrol altına alınır
+        """
+        valid_statuses = ["acil", "stabil", "taburcu"]
+
+        if new_status not in valid_statuses:
+            raise ValueError("Geçersiz acil hasta durumu")
+
+        # Stabil olunca acil seviyesi otomatik düşürülür
+        if new_status == "stabil" and self._emergency_level > 2:
+            self._emergency_level = 2
+
+        self._status = new_status
 
     # emergency-specific behavior
     def stabilize(self):
-        """
-        Hasta stabilize edildiğinde çağrılır
-        """
+        """Hasta stabilize edildiğinde çağrılır"""
         self.update_status("stabil")
 
     def escalate(self):
-        """
-        Hastanın durumu kötüleşirse acil seviyesi yükseltilir
-        """
+        """Hastanın durumu kötüleşirse acil seviyesi yükseltilir"""
         if self._emergency_level > 1:
             self._emergency_level -= 1
+            self._status = "acil"
 
     def __str__(self):
         return self.describe()
