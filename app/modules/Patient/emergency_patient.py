@@ -1,13 +1,13 @@
 # app/modules/patient/emergency_patient.py
+
 from .base import PatientBase
 from datetime import datetime
+from typing import Optional
 
 
 class EmergencyPatient(PatientBase):
     """
     Acil Hasta Sınıfı
-    - Hayati riski olan hastaları temsil eder
-    - Öncelik seviyesi en yüksektir
     """
 
     def __init__(
@@ -17,7 +17,7 @@ class EmergencyPatient(PatientBase):
         age: int,
         gender: str,
         emergency_level: int,
-        arrival_time: datetime | None = None,
+        arrival_time: Optional[datetime] = None,
         status: str = "acil"
     ):
         super().__init__(patient_id, name, age, gender, status)
@@ -30,11 +30,11 @@ class EmergencyPatient(PatientBase):
 
     # property
     @property
-    def emergency_level(self):
+    def emergency_level(self) -> int:
         return self._emergency_level
 
     @property
-    def arrival_time(self):
+    def arrival_time(self) -> datetime:
         return self._arrival_time
 
     # abstract method override
@@ -51,7 +51,6 @@ class EmergencyPatient(PatientBase):
             3: 60
         }[self._emergency_level]
 
-    # abstract method override
     def describe(self) -> str:
         return (
             f"[ACİL HASTA] "

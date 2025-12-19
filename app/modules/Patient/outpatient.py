@@ -1,6 +1,8 @@
 # app/modules/patient/outpatient.py
+
 from .base import PatientBase
 from datetime import datetime
+from typing import Optional
 
 
 class Outpatient(PatientBase):
@@ -14,7 +16,7 @@ class Outpatient(PatientBase):
         name: str,
         age: int,
         gender: str,
-        appointment_date: str | None = None,
+        appointment_date: Optional[str] = None,
         status: str = "aktif"
     ):
         super().__init__(patient_id, name, age, gender, status)
@@ -22,11 +24,11 @@ class Outpatient(PatientBase):
 
     # property
     @property
-    def appointment_date(self):
+    def appointment_date(self) -> Optional[str]:
         return self._appointment_date
 
     @appointment_date.setter
-    def appointment_date(self, value):
+    def appointment_date(self, value: Optional[str]):
         if value is not None:
             try:
                 datetime.strptime(value, "%Y-%m-%d")

@@ -1,6 +1,8 @@
 # app/modules/patient/repository.py
-from typing import List
+
+from typing import List, Optional
 from .base import PatientBase
+
 
 class PatientRepository:
     """
@@ -15,8 +17,10 @@ class PatientRepository:
         Yeni hasta ekler.
         Aynı ID ile hasta varsa eklemeye izin vermez.
         """
-        if self.get_by_id(patient.patient_id):
-            raise ValueError(f"Aynı ID'ye sahip hasta zaten mevcut: {patient.patient_id}")
+        if self.get_by_id(patient.patient_id) is not None:
+            raise ValueError(
+                f"Aynı ID'ye sahip hasta zaten mevcut: {patient.patient_id}"
+            )
         self._patients.append(patient)
 
     def remove(self, patient_id: int):
@@ -25,18 +29,18 @@ class PatientRepository:
         Hasta yoksa hata fırlatır.
         """
         patient = self.get_by_id(patient_id)
-        if not patient:
+        if patient is None:
             raise ValueError(f"Silinecek hasta bulunamadı: {patient_id}")
         self._patients.remove(patient)
 
-    def get_by_id(self, patient_id: int) -> PatientBase | None:
+    def get_by_id(self, patient_id: int) -> Optional[PatientBase]:
         """
         ID'ye göre hasta döndürür.
         """
-        return next(
-            (p for p in self._patients if p.patient_id == patient_id),
-            None
-        )
+        for patient in self._patients:
+            if patient.patient_id == patient_id:
+                return patient
+        return None
 
     def list_all(self) -> List[PatientBase]:
         """
@@ -52,7 +56,8 @@ class PatientRepository:
 
     def filter_by_type(self, patient_type: str) -> List[PatientBase]:
         """
-        Hasta tipine göre filtreleme (Inpatient, Outpatient, EmergencyPatient)
+        Hasta tipine göre filtreleme
+        (Inpatient, Outpatient, EmergencyPatient)
         """
         return [
             p for p in self._patients
